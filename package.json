@@ -1,0 +1,13 @@
+{
+  "name": "chat-server-sample",
+  "version": "0.0.1",
+  "private": true,
+  "repository": {
+    "type": "git"
+  },
+  "dependencies": {
+    "socket.io": "*"
+  },
+  "devDependencies": {
+  }
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>チャットサンプル</title>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+  <input type="text" id="message_input" style="width:200px;" />
+  <button onclick="sendMessage();">送信</button>
+  <div id="message"></div>
+
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+
+function sendMessage() {
+  var textInput = document.getElementById('message_input');
+  socket.emit('insert:message', {message: textInput.value});
+  textInput.value = '';
+}
+
+function print(text) {
+  document.getElementById('message').innerHTML += text + '<br>';
+}
+
+var socket = io.connect('ws://localhost:3000');
+
+socket.on('connect', function () {
+  var id = socket.io.engine.id;
+  var rooms = ['room1', 'room2'];
+  var rand = Math.floor( Math.random() * 100 ) % 2;
+  document.getElementById('message').innerHTML = '';
+  socket.emit('add:member', {room: rooms[rand], message: 'join room: ' + rooms[rand]});
+});
+
+socket.on('insert:message', function (message) {
+  print(JSON.stringify(message));
+});
+
+</script>
+
+</body>
+</html>
